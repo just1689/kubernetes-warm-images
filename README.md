@@ -1,8 +1,15 @@
 # kubernetes-warm-images
 
-The goal of this project is to keep container images on nodes that could be used in the near future to reduce the time needed to spin them up in the case of node downtime, scaling or similar scenarios.
+The goal of this project is to pull images onto nodes if they may be used there in the near future. Another way of
+putting this is "Keeping images warm".
 
 ## Architecture
 
-The project will consist of two components. The `Controller` is responsible for subscribing to relevant object changes in Kubernetes declarative state. The `Local Agent` will ensure each node pulls images determined relevant by the `Controller`.
+The project will consist of three components.
+
+1. The `Controller` is responsible for subscribing to relevant object changes in Kubernetes declarative state.
+2. The `Local Agent` will ensure each node pulls images determined relevant by the `Controller`.
+3. The communication medium for the project is NATs. NATs is configurable by operator which means more freedom.
+
+
 

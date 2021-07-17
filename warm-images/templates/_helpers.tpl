@@ -93,6 +93,6 @@ Custom registry name
 {{- if .Values.image.customRegistry -}}
 {{ printf "%s/" .Values.image.customRegistry -}}
 {{- else -}}
-{{ print "docker.io/library/" }}
+{{ print "" }}
 {{- end -}}
 {{- end -}}

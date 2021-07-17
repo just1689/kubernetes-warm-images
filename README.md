@@ -22,6 +22,7 @@ kubectl create ns warm-images
 
 2. Install NATs
 
+I suggest using the Bitnami NATs Helm chart as at this time it is maintained, up-to-date and fairly configurable: https://github.com/bitnami/charts/tree/master/bitnami/nats
 ```bash
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
@@ -51,7 +52,7 @@ helm install --namespace warm-images --values values.yaml wi tba/tba
 
 ### Changing the namespaces
 
-Modify the `values.yaml` file for multiple namespaces by separating them with spaces
+Modify the `values.yaml` file for multiple namespaces by separating them with spaces in the field `list.spaces`
 
 ```yaml
 list.spaces: ns1 default ns2

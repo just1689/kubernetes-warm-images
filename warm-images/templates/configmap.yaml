@@ -4,7 +4,7 @@ metadata:
   name: {{ include "warm-images.configmap" . }}
   namespace: {{ .Release.Namespace | quote }}
 data:
-  list.spaces: "{{ .Values.list }}"
-  ignore.spaces: "{{ .Values.ignore }}"
-  nats.username: "{{ .Values.nats.username }}"
-  nats.password: "{{ .Values.nats.password }}"
+  list.spaces: {{ .Values.list | quote }}
+  ignore.spaces: {{ .Values.ignore | quote }}
+  nats.username: {{ .Values.nats.username | quote }}
+  nats.password: {{ .Values.nats.password | quote }}

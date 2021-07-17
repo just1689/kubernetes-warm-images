@@ -1,0 +1,31 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: warm-images-svc-acc
+  namespace: warm-images
+automountServiceAccountToken: true
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: warm-images
+  name: warm-images-clusterrole
+rules:
+  - apiGroups: ["", "extensions", "v1"]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch", "create"]
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: warm-images-clusterrole-binding
+  namespace: warm-images
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: warm-images-clusterrole
+subjects:
+  - apiGroup: ""
+    kind: ServiceAccount
+    name: warm-images-svc-acc
+    namespace: warm-images

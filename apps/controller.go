@@ -7,11 +7,7 @@ import (
 	"os"
 )
 
-// TODO: Should the types go in a CRD?
-// TODO: Should namespaces be limited to specified namespaces or all namespaces?
-// TODO: Should there be an exclusion list of images... maybe a regex matching string field/s for exclusion
-
-var namespacesFilename = "/namespaces/list.spaces" //TODO: override in env var
+var namespacesFilename = "/config/list.spaces" //TODO: override in env var
 
 func RunController() {
 	logrus.Infoln("> Started as Controller")

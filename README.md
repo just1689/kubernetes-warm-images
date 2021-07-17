@@ -34,8 +34,8 @@ helm install --namespace warm-images wi-nats bitnami/nats
 ```bash
 # Get the username & password
 touch values.yaml
-echo "username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
-echo "password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
+echo "nats.username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
+echo "nats.password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
 
 # Allow watching all namespaces
 echo "list.spaces: *" >> values.yaml

@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"github.com/sirupsen/logrus"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -9,6 +10,8 @@ import (
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
+
+var emptyArr = []string{}
 
 func NewK8sClient() *K8sClient {
 	result := &K8sClient{}
@@ -50,13 +53,11 @@ func handleWatch(namespace string, wi watch.Interface, imgChan chan string) {
 
 func getImages(event watch.Event) []string {
 	if event.Type != "ADDED" {
-		return []string{}
+		return emptyArr
 	}
 	if p, ok := event.Object.(*v1.Pod); !ok {
-		logrus.Errorln("could not cast as pod")
-		logrus.Errorln(event.Object)
-		logrus.Errorln("")
-		return []string{}
+		logrus.Errorln("could not cast as pod", event.Object)
+		return emptyArr
 	} else {
 		result := make([]string, len(p.Spec.Containers))
 		for i, container := range p.Spec.Containers {
@@ -66,14 +67,14 @@ func getImages(event watch.Event) []string {
 	}
 }
 
-func (cl *K8sClient) newWatcher(namespace string) watch.Interface {
+func (cl *K8sClient) newWatcher(namespace string) (wi watch.Interface) {
 	logrus.Infoln("watching pods in ns:", namespace)
-	wi, err := cl.clientSet.CoreV1().Pods(namespace).Watch(context.TODO(), metav1.ListOptions{})
-	if err != nil {
-		logrus.Errorln("could not watch Pods in namespace ", namespace)
-		return nil
+	var err error
+	if wi, err = cl.clientSet.CoreV1().Pods(namespace).Watch(context.TODO(), metav1.ListOptions{}); err != nil {
+		logrus.Errorln(fmt.Sprintf("could not watch Pods in namespace `%s`", namespace))
+		return
 	}
-	return wi
+	return
 }
 
 func arrToChan(arr []string, imgChan chan string) {

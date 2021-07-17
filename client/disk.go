@@ -6,6 +6,15 @@ import (
 	"strings"
 )
 
+func readFileToString(file string) (string, error) {
+	b, err := ioutil.ReadFile(file)
+	if err != nil {
+		logrus.Errorln(err)
+		return "", err
+	}
+	return string(b), nil
+}
+
 func SplitFileBySpace(file string) (res chan string, err error) {
 	var b []byte
 	b, err = ioutil.ReadFile(file)

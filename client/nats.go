@@ -34,7 +34,7 @@ func (p *PubSub) Close() {
 func NewPubSubClient() *PubSub {
 	natsAddr := os.Getenv("NATS_ADDR")
 	if natsAddr == "" {
-		logrus.Fatalln("could not find env var NATS_ADDR. Exiting")
+		logrus.Panicln("could not find env var NATS_ADDR. Exiting")
 	}
 	cl := PubSub{}
 	var err error
@@ -42,8 +42,8 @@ func NewPubSubClient() *PubSub {
 	username, password := getNATsCreds()
 	cl.nc, err = nats.Connect(natsAddr, nats.UserInfo(username, password))
 	if err != nil {
-		logrus.Errorln("could not connect to NATs server with NATS URL: ", natsAddr)
-		logrus.Panicln(err)
+		logrus.Errorln(util.LogPrepend(3, fmt.Sprint("could not connect to NATs server with NATS URL: ", natsAddr)))
+		logrus.Errorln(util.LogPrepend(3, err.Error()))
 	}
 	return &cl
 

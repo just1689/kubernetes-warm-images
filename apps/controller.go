@@ -1,7 +1,9 @@
 package apps
 
 import (
+	"fmt"
 	"github.com/just1689/kubernetes-warm-images/client"
+	"github.com/just1689/kubernetes-warm-images/util"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"os"
@@ -10,22 +12,25 @@ import (
 var namespacesFilename = "/config/list.spaces" //TODO: override in env var
 
 func RunController() {
-	logrus.Infoln(logPrepend(1, "~~~ Started as Controller ~~~"))
+	logrus.Infoln(util.LogPrepend(1, "~~~ Started as Controller ~~~"))
 
 	//Get namespaces to watch
+	logrus.Infoln(util.LogPrepend(2, "getting namespaces to watch"))
 	ns := getNamespacesToWatch()
 
 	//Connect to the NATs server
+	logrus.Infoln(util.LogPrepend(2, "connecting to pubSub"))
 	pubSub := client.NewPubSubClient()
 
 	//Connect to Kubernetes API
+	logrus.Infoln(util.LogPrepend(2, "connecting to K8s"))
 	k8sClient := client.NewK8sClient()
 
 	//Subscribe to CREATE Pod
 	images := k8sClient.WatchImages(ns)
 	go func() {
 		for image := range images {
-			logrus.Infoln("new image: ", image)
+			logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("Found new image:%s", image)))
 			pubSub.Publish(image)
 		}
 	}()

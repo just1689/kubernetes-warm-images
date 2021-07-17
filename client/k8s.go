@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
+	"github.com/just1689/kubernetes-warm-images/util"
 	"github.com/sirupsen/logrus"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,7 +22,7 @@ func NewK8sClient() *K8sClient {
 	}
 	result.clientSet, err = kubernetes.NewForConfig(config)
 	if err != nil {
-		logrus.Errorln("could not connect to Kubernetes API in-cluster. Exiting")
+		logrus.Errorln(util.LogPrepend(3, "could not connect to Kubernetes API in-cluster. Exiting"))
 		logrus.Panicln(err.Error())
 	}
 	return result
@@ -37,7 +38,7 @@ func (cl *K8sClient) WatchImages(namespaces chan string) chan string {
 		if namespace == "*" {
 			namespace = ""
 		}
-		logrus.Infoln("New watcher ns:", namespace)
+		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("New watcher ns: '%s'", namespace)))
 		wi := cl.newWatcher(namespace)
 		go handleWatch(namespace, wi, result)
 	}
@@ -45,7 +46,7 @@ func (cl *K8sClient) WatchImages(namespaces chan string) chan string {
 }
 
 func handleWatch(namespace string, wi watch.Interface, imgChan chan string) {
-	logrus.Infoln("handleWatch:", namespace)
+	logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("handleWatch namespace: '%s'", namespace)))
 	for event := range wi.ResultChan() {
 		arrToChan(getImages(event), imgChan)
 	}
@@ -56,7 +57,7 @@ func getImages(event watch.Event) []string {
 		return emptyArr
 	}
 	if p, ok := event.Object.(*v1.Pod); !ok {
-		logrus.Errorln("could not cast as pod", event.Object)
+		logrus.Errorln(util.LogPrepend(3, fmt.Sprintf("could not cast as pod %s", event.Object)))
 		return emptyArr
 	} else {
 		result := make([]string, len(p.Spec.Containers))
@@ -68,10 +69,10 @@ func getImages(event watch.Event) []string {
 }
 
 func (cl *K8sClient) newWatcher(namespace string) (wi watch.Interface) {
-	logrus.Infoln("watching pods in ns:", namespace)
+	logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("watching pods in ns: '%s'", namespace)))
 	var err error
 	if wi, err = cl.clientSet.CoreV1().Pods(namespace).Watch(context.TODO(), metav1.ListOptions{}); err != nil {
-		logrus.Errorln(fmt.Sprintf("could not watch Pods in namespace `%s`", namespace))
+		logrus.Errorln(util.LogPrepend(3, fmt.Sprintf("could not watch Pods in namespace `%s`", namespace)))
 		return
 	}
 	return

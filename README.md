@@ -65,6 +65,7 @@ list.spaces: *
 
 ## Roadmap
 
+- Tests
 - Support for ignoring namespaces
 - Support for * namespaces
 - Move builds to GitHub
@@ -75,3 +76,8 @@ list.spaces: *
 - Redo logging in Controller
 - ContainerD client option for pulling images
 - Roughly "contains" images or regex ignoring
+- Prometheus metrics
+- Integrate health check for Controller
+- Integrate health check for Agent
+- Clean shutdown - Controller
+- Clean shutdown - Agent

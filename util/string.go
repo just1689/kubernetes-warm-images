@@ -6,3 +6,15 @@ func StrOr(first, second string) string {
 	}
 	return second
 }
+
+func StrExistsIn(needle string, haystack []string) bool {
+	if len(haystack) == 0 {
+		return false
+	}
+	for _, next := range haystack {
+		if needle == next {
+			return true
+		}
+	}
+	return false
+}

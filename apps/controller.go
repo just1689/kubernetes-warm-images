@@ -9,7 +9,8 @@ import (
 	"os"
 )
 
-var namespacesFilename = "/config/list.spaces" //TODO: override in env var
+var namespacesWatchFilename = "/config/list.spaces"    //TODO: override in env var
+var namespacesIgnoreFilename = "/config/ignore.spaces" //TODO: override in env var
 
 func RunController() {
 	logrus.Infoln(util.LogPrepend(1, "~~~ Started as Controller ~~~"))
@@ -17,6 +18,10 @@ func RunController() {
 	//Get namespaces to watch
 	logrus.Infoln(util.LogPrepend(2, "getting namespaces to watch"))
 	ns := getNamespacesToWatch()
+
+	//Get namespaces to ignore
+	logrus.Infoln(util.LogPrepend(2, "getting namespaces to ignore"))
+	nsIgnore := getNamespacesToIgnore()
 
 	//Connect to the NATs server
 	logrus.Infoln(util.LogPrepend(2, "connecting to pubSub"))
@@ -27,7 +32,7 @@ func RunController() {
 	k8sClient := client.NewK8sClient()
 
 	//Subscribe to CREATE Pod
-	images := k8sClient.WatchImages(ns)
+	images := k8sClient.WatchImages(ns, nsIgnore)
 	go func() {
 		for image := range images {
 			logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("Found new image:%s", image)))
@@ -38,11 +43,23 @@ func RunController() {
 }
 
 func getNamespacesToWatch() chan string {
-	c, err := client.SplitFileBySpace(namespacesFilename)
+	c, err := client.SplitFileBySpace(namespacesWatchFilename)
 	if err != nil {
-		logrus.Panicln("could not get namespace list")
+		logrus.Panicln("could not get namespace list to watch")
 	}
 	return c
+}
+
+func getNamespacesToIgnore() []string {
+	c, err := client.SplitFileBySpace(namespacesIgnoreFilename)
+	if err != nil {
+		logrus.Panicln("could not get namespace list to ignore")
+	}
+	result := make([]string, 0)
+	for next := range c {
+		result = append(result, next)
+	}
+	return result
 }
 
 func startHealthServer() {

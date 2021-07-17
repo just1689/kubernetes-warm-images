@@ -34,17 +34,16 @@ helm install --namespace warm-images wi-nats bitnami/nats
 3. Install the app
 
 ```bash
-# Get the username & password
+# Get the username & password from NATs
 touch values.yaml
 echo "nats:" >> values.yaml
 echo "  url: \"nats://wi-nats-client:4222\"" >> values.yaml
 echo "  username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
 echo "  password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
 
-# Allow watching all namespaces
-echo "list.spaces: *" >> values.yaml
-# TODO: ignore namespaces
-# ...
+# Allow watching some namespaces & ignoring others
+echo "list.spaces: \"*\"" >> values.yaml
+echo "ignore.spaces: \"\"" >> values.yaml
 
 # Install 
 helm repo add captains-charts https://storage.googleapis.com/captains-charts
@@ -68,11 +67,12 @@ or use all namespaces using `*`:
 list.spaces: *
 ```
 
+To ignore some number of namespaces modify the `ignore.spaces` field in the `values.yaml`. It accepts a spaced separated list of namespaces.
+
 ## Roadmap v0.9.0 - Core Functionality
-- Config: Exclude Namespaces
-- Config: Exclude images that "contain"
 
 ## Roadmap - v1.0.0 - Stable
+- Config: Exclude images that "contain"
 - Tests
 - End-to-end test of install guide
 - ContainerD client option for pulling images

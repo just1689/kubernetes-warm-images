@@ -32,7 +32,7 @@ type K8sClient struct {
 	clientSet *kubernetes.Clientset
 }
 
-func (cl *K8sClient) WatchImages(namespaces chan string) chan string {
+func (cl *K8sClient) WatchImages(namespaces chan string, nsIgnore []string) chan string {
 	result := make(chan string, 256)
 	for namespace := range namespaces {
 		if namespace == "*" {
@@ -40,19 +40,19 @@ func (cl *K8sClient) WatchImages(namespaces chan string) chan string {
 		}
 		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("New watcher ns: '%s'", namespace)))
 		wi := cl.newWatcher(namespace)
-		go handleWatch(namespace, wi, result)
+		go handleWatch(namespace, wi, result, nsIgnore)
 	}
 	return result
 }
 
-func handleWatch(namespace string, wi watch.Interface, imgChan chan string) {
+func handleWatch(namespace string, wi watch.Interface, imgChan chan string, nsIgnore []string) {
 	logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("handleWatch namespace: '%s'", namespace)))
 	for event := range wi.ResultChan() {
-		arrToChan(getImages(event), imgChan)
+		arrToChan(getImages(event, nsIgnore), imgChan)
 	}
 }
 
-func getImages(event watch.Event) []string {
+func getImages(event watch.Event, nsIgnore []string) []string {
 	if event.Type != "ADDED" {
 		return emptyArr
 	}
@@ -60,6 +60,10 @@ func getImages(event watch.Event) []string {
 		logrus.Errorln(util.LogPrepend(3, fmt.Sprintf("could not cast as pod %s", event.Object)))
 		return emptyArr
 	} else {
+		if util.StrExistsIn(p.ObjectMeta.Namespace, nsIgnore) {
+			logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("ignoring pod: '%s' as namespace: '%s'", p.ObjectMeta.Name, p.ObjectMeta.Namespace)))
+			return emptyArr
+		}
 		result := make([]string, len(p.Spec.Containers))
 		for i, container := range p.Spec.Containers {
 			result[i] = container.Image
@@ -79,6 +83,9 @@ func (cl *K8sClient) newWatcher(namespace string) (wi watch.Interface) {
 }
 
 func arrToChan(arr []string, imgChan chan string) {
+	if len(arr) == 0 {
+		return
+	}
 	for _, next := range arr {
 		imgChan <- next
 	}

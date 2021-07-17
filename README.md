@@ -68,7 +68,6 @@ list.spaces: *
 
 - Tests
 - Support for ignoring namespaces
-- Support for * namespaces
 - Move builds to GitHub
 - Helm Chart for installation
 - Remove the local YAML
@@ -76,9 +75,11 @@ list.spaces: *
 - Hosting for Helm chart?
 - Redo logging in Controller
 - ContainerD client option for pulling images
-- Roughly "contains" images or regex ignoring
-- Prometheus metrics
+- "Contains" support for excluded namespaces
+- "Contains" support for excluded images
+- Export Prometheus endpoint. Config for Helm
 - Integrate health check for Controller
 - Integrate health check for Agent
 - Clean shutdown - Controller
 - Clean shutdown - Agent
+- v1

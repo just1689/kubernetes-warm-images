@@ -31,6 +31,9 @@ type K8sClient struct {
 func (cl *K8sClient) WatchImages(namespaces chan string) chan string {
 	result := make(chan string, 256)
 	for namespace := range namespaces {
+		if namespace == "*" {
+			namespace = ""
+		}
 		logrus.Infoln("New watcher ns:", namespace)
 		wi := cl.newWatcher(namespace)
 		go handleWatch(namespace, wi, result)

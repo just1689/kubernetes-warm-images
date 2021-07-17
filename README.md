@@ -42,8 +42,8 @@ echo "  username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='
 echo "  password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
 
 # Allow watching some namespaces & ignoring others
-echo "list.spaces: \"*\"" >> values.yaml
-echo "ignore.spaces: \"\"" >> values.yaml
+echo "list: \"*\"" >> values.yaml
+echo "ignore: \"\"" >> values.yaml
 
 # Install 
 helm repo add captains-charts https://storage.googleapis.com/captains-charts

@@ -1,5 +1,5 @@
 image:
-  repository: warmimages
+  repository: just1689/warmimages
   pullPolicy: IfNotPresent
   customRegistry:
 

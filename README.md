@@ -2,8 +2,7 @@
 
 ## Kubernetes Warm Images
 
-The goal of this project is to pull images onto nodes if they may be used there in the near future. Another way of
-putting this is "Keeping images warm".
+The goal of this project is to "keep images warm" by pulling images onto nodes if they may be used in the near future.
 
 ## Architecture
 
@@ -16,30 +15,46 @@ The project will consist of three components.
 ## Installation
 
 1. Create the namespace
+
 ```bash
 kubectl create ns warm-images
 ```   
-1. Install NATs
+
+2. Install NATs
+
 ```bash
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
 helm install --namespace warm-images wi-nats bitnami/nats
+```
+
+3. Install the app
+
+```bash
+  # Get the username & password
+  touch values.yaml
+  echo "username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
+  echo "password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
+  echo "list.spaces: *" >> values.yaml
+ 
+helm repo add TBA
+helm repo update
+helm install --namespace warm-images --values values.yaml wi tba/tba
 ```   
-1. Install Warm Images
 
 ## Configuration
 
 ### Changing the namespaces
 
-Create values.yaml file with the following entry:
+Modify the `values.yaml` file for multiple namespaces by separating them with spaces
+
 ```yaml
   list.spaces: ns1 default ns2
 ```
-or this:
+
+or use all namespaces using `*`:
+
 ```yaml
   list.spaces: *
 ```
 
-```bash
-helm template 
-```

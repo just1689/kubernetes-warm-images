@@ -41,5 +41,6 @@ nats:
   username: "nats_client"
   password: "sY6GYz5c9W"
 
-list.spaces: "*"
-ignore.spaces: ""
+list: "*"
+ignore: ""
+

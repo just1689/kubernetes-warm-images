@@ -16,8 +16,16 @@ The project will consist of three components.
 ## Installation
 
 1. Create the namespace
-2. Install NATs
-3. Install Warm Images
+```bash
+kubectl create ns warm-images
+```   
+1. Install NATs
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+helm install --namespace warm-images wi-nats bitnami/nats
+```   
+1. Install Warm Images
 
 ## Configuration
 
@@ -30,4 +38,8 @@ Create values.yaml file with the following entry:
 or this:
 ```yaml
   list.spaces: *
+```
+
+```bash
+helm template 
 ```

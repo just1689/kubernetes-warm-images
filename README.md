@@ -70,6 +70,7 @@ list.spaces: *
 To ignore some number of namespaces modify the `ignore.spaces` field in the `values.yaml`. It accepts a spaced separated list of namespaces.
 
 ## Roadmap v0.9.0 - Core Functionality
+- Remove temp password from `values.yaml`
 
 ## Roadmap - v1.0.0 - Stable
 - Config: Exclude images that "contain"
@@ -80,6 +81,7 @@ To ignore some number of namespaces modify the `ignore.spaces` field in the `val
 - Integrate health check for Agent
 - Clean shutdown - Controller
 - Clean shutdown - Agent
+- Test different scenarios  
 - v1
 
 ## Roadmap - Future

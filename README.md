@@ -49,7 +49,7 @@ echo "list.spaces: *" >> values.yaml
 # Install 
 helm repo add TBA
 helm repo update
-helm install --namespace warm-images --values values.yaml wi tba/tba
+helm install --namespace warm-images --values values.yaml wi warm-images
 ```   
 
 ## Configuration
@@ -69,14 +69,14 @@ list.spaces: *
 ```
 
 ## Roadmap
-
-- Tests
-- Support for ignoring namespaces
 - Move builds to GitHub
-- Helm Chart for installation
-- Remove the local YAML
-- End-to-end test of install guide
 - Hosting for Helm chart?
+
+## Roadmap - Later
+- v1
+- Support for ignoring namespaces
+- Tests
+- End-to-end test of install guide
 - Redo logging in Controller
 - ContainerD client option for pulling images
 - "Contains" support for excluded namespaces
@@ -86,4 +86,3 @@ list.spaces: *
 - Integrate health check for Agent
 - Clean shutdown - Controller
 - Clean shutdown - Agent
-- v1

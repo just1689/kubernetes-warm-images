@@ -42,6 +42,8 @@ spec:
               path: /
               port: http
           volumeMounts:
+            - mountPath: /config
+              name: {{ include "warm-images.configmap" . }}
             - name: dockersock
               mountPath: /var/run/docker.sock
           resources:
@@ -50,4 +52,7 @@ spec:
         - name: dockersock
           hostPath:
             path: /var/run/docker.sock
+        - name: {{ include "warm-images.configmap" . }}
+          configMap:
+            name: {{ include "warm-images.configmap" . }}
   revisionHistoryLimit: 1

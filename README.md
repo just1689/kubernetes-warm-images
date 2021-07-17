@@ -58,31 +58,37 @@ helm install --namespace warm-images --values values.yaml wi captains-charts/war
 Modify the `values.yaml` file for multiple namespaces by separating them with spaces in the field `list.spaces`
 
 ```yaml
-list.spaces: ns1 default ns2
+list: "ns1 default ns2"
 ```
 
 or use all namespaces using `*`:
 
 ```yaml
-list.spaces: *
+list: "*"
 ```
 
-To ignore some number of namespaces modify the `ignore.spaces` field in the `values.yaml`. It accepts a spaced separated list of namespaces.
+To ignore some number of namespaces modify the `ignore` field in the `values.yaml`. It accepts a spaced separated list of namespaces.
 
 ## Roadmap v0.9.0 - Core Functionality
 - Remove temp password from `values.yaml`
 
 ## Roadmap - v1.0.0 - Stable
 - Config: Exclude images that "contain"
-- Tests
+- Tests - Go
+- Tests - Helm  
 - End-to-end test of install guide
-- ContainerD client option for pulling images
 - Integrate health check for Controller
 - Integrate health check for Agent
 - Clean shutdown - Controller
 - Clean shutdown - Agent
-- Test different scenarios  
+- Test different scenarios
 - v1
+
+## Roadmap - v1.1.0
+- TBA
+
+## Roadmap - v1.2.0
+- Support for ContainerD
 
 ## Roadmap - Future
 - Export Prometheus endpoint. Config for Helm

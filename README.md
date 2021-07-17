@@ -68,21 +68,22 @@ or use all namespaces using `*`:
 list.spaces: *
 ```
 
-## Roadmap
-- Move builds to GitHub
-- Hosting for Helm chart?
-
-## Roadmap - Later
-- v1
+## Roadmap v0.9.0 - Core Functionality
 - Support for ignoring namespaces
-- Tests
-- End-to-end test of install guide
 - Redo logging in Controller
-- ContainerD client option for pulling images
 - "Contains" support for excluded namespaces
 - "Contains" support for excluded images
-- Export Prometheus endpoint. Config for Helm
+
+
+## Roadmap - v1.0.0 - Stable
+- Tests
+- End-to-end test of install guide
+- ContainerD client option for pulling images
 - Integrate health check for Controller
 - Integrate health check for Agent
 - Clean shutdown - Controller
 - Clean shutdown - Agent
+- v1
+
+## Roadmap - Future
+- Export Prometheus endpoint. Config for Helm

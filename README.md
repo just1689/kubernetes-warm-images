@@ -69,7 +69,6 @@ list.spaces: *
 ```
 
 ## Roadmap v0.9.0 - Core Functionality
-- Namespaces arg for `helm ...`
 - Logging: redo for Controller
 - Config: Exclude Namespaces
 - Config: Exclude images that "contain"

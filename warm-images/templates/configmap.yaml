@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ include "warm-images.configmap" . }}
+  namespace: {{ .Release.Namespace | quote }}
 data:
   list.spaces: "*"
   nats.username: "{{ .Values.nats.username }}"

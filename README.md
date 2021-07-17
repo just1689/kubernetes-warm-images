@@ -79,26 +79,27 @@ TBA
 
 - Remove temp password from `values.yaml`
 
-## Roadmap - v1.0.0 - Stable
+## Roadmap v1.0.0 - Stable
 
-- Config: Exclude images that "contain"
-- Integrate health check for Controller
-- Integrate health check for Agent
-- Test different scenarios
-- End-to-end test of install guide
+- Config: Exclude images that "contain".
+- Integrate health check for Controller.
+- Integrate health check for Agent.
+- Test different scenarios.
+- End-to-end test of install guide.
 - v1
 
-## Roadmap - v1.1.0
-- Tests - Go
-- Tests - Helm
-- Monitoring first pass - logs
+## Roadmap v1.1.0 - Find all the bugs
+- Tests - Go.
+- Tests - Helm.
+- Monitoring first pass - logs.
 
-## Roadmap - v1.2.0
+## Roadmap v1.2.0
 
-- Support for ContainerD
-- Clean shutdown - Controller
-- Clean shutdown - Agent
+- Support for ContainerD.
+- Clean shutdown - Controller.
+- Clean shutdown - Agent.
+- Consider support for non-NATs streaming.
 
 ## Roadmap - Future
 - Push Helm package to online repo as part of GitHub Action.
-- Export Prometheus endpoint. Config for Helm
+- Export Prometheus endpoint. Config for Helm.

@@ -2,15 +2,17 @@
 
 ## Kubernetes Warm Images
 
-The goal of this project is to "keep images warm" by pulling images onto nodes if they may be used in the near future.
+The goal of this project is to "keep images warm" by pulling images onto nodes in-case they may be used in the near
+future.
 
 ## Architecture
 
 The project will consist of three components.
 
 1. The `Controller` is responsible for subscribing to relevant object changes in Kubernetes declarative state.
-2. The `Local Agent` will ensure each node pulls images determined relevant by the `Controller`.
-3. The communication medium for the project is `nats`. NATs is configurable by operator which means more freedom.
+2. The `Agent` runs on each node and pulls images to the node.
+3. The communication medium for the project is `nats`. NATs is configurable by the operator which means more freedom for
+   those running the project.
 
 ## Installation
 
@@ -22,7 +24,7 @@ kubectl create ns warm-images
 
 2. Install NATs
 
-I suggest using the Bitnami NATs Helm chart as at this time it is maintained, up-to-date and fairly
+I suggest using the Bitnami NATs Helm chart as at time of writing it is maintained, up-to-date and fairly
 configurable: https://github.com/bitnami/charts/tree/master/bitnami/nats
 
 ```bash
@@ -67,28 +69,34 @@ or use all namespaces using `*`:
 list: "*"
 ```
 
-To ignore some number of namespaces modify the `ignore` field in the `values.yaml`. It accepts a spaced separated list of namespaces.
+To ignore some number of namespaces modify the `ignore` field in the `values.yaml`. It accepts a spaced separated list
+of namespaces.
 
 ## Roadmap v0.9.0 - Core Functionality
+
 - Remove temp password from `values.yaml`
 
 ## Roadmap - v1.0.0 - Stable
+
 - Config: Exclude images that "contain"
-- Tests - Go
-- Tests - Helm  
-- End-to-end test of install guide
 - Integrate health check for Controller
 - Integrate health check for Agent
-- Clean shutdown - Controller
-- Clean shutdown - Agent
 - Test different scenarios
 - v1
 
 ## Roadmap - v1.1.0
-- TBA
+
+- Confidence through tests
+- Tests - Go
+- Tests - Helm
+- End-to-end test of install guide
 
 ## Roadmap - v1.2.0
+
 - Support for ContainerD
+- Clean shutdown - Controller
+- Clean shutdown - Agent
 
 ## Roadmap - Future
+
 - Export Prometheus endpoint. Config for Helm

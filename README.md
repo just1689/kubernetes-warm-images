@@ -47,9 +47,9 @@ echo "list.spaces: *" >> values.yaml
 # ...
 
 # Install 
-helm repo add TBA
+helm repo add captains-charts https://storage.googleapis.com/captains-charts
 helm repo update
-helm install --namespace warm-images --values values.yaml wi warm-images
+helm install --namespace warm-images --values values.yaml wi captains-charts/warm-images
 ```   
 
 ## Configuration
@@ -69,11 +69,10 @@ list.spaces: *
 ```
 
 ## Roadmap v0.9.0 - Core Functionality
-- Support for ignoring namespaces
-- Redo logging in Controller
-- "Contains" support for excluded namespaces
-- "Contains" support for excluded images
-
+- Namespaces arg for `helm ...`
+- Logging: redo for Controller
+- Config: Exclude Namespaces
+- Config: Exclude images that "contain"
 
 ## Roadmap - v1.0.0 - Stable
 - Tests

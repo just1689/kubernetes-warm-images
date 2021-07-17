@@ -1,7 +1,7 @@
 image:
   repository: warmimages
   pullPolicy: IfNotPresent
-  customRegistry: reg.captainjustin.space
+  customRegistry:
 
 serviceAccount:
   annotations: {}

@@ -31,18 +31,20 @@ helm install --namespace warm-images wi-nats bitnami/nats
 3. Install the app
 
 ```bash
-  # Get the username & password
-  touch values.yaml
-  echo "username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
-  echo "password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
-  # Allow watching all namespaces
-  echo "list.spaces: *" >> values.yaml
-  # TODO: ignore namespaces
-  # ...
- 
-  helm repo add TBA
-  helm repo update
-  helm install --namespace warm-images --values values.yaml wi tba/tba
+# Get the username & password
+touch values.yaml
+echo "username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
+echo "password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
+
+# Allow watching all namespaces
+echo "list.spaces: *" >> values.yaml
+# TODO: ignore namespaces
+# ...
+
+# Install 
+helm repo add TBA
+helm repo update
+helm install --namespace warm-images --values values.yaml wi tba/tba
 ```   
 
 ## Configuration
@@ -52,12 +54,24 @@ helm install --namespace warm-images wi-nats bitnami/nats
 Modify the `values.yaml` file for multiple namespaces by separating them with spaces
 
 ```yaml
-  list.spaces: ns1 default ns2
+list.spaces: ns1 default ns2
 ```
 
 or use all namespaces using `*`:
 
 ```yaml
-  list.spaces: *
+list.spaces: *
 ```
 
+## Roadmap
+
+- Support for ignoring namespaces
+- Support for * namespaces
+- Move builds to GitHub
+- Helm Chart for installation
+- Remove the local YAML
+- End-to-end test of install guide
+- Hosting for Helm chart?
+- Redo logging in Controller
+- ContainerD client option for pulling images
+- Roughly "contains" images or regex ignoring

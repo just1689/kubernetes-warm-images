@@ -35,11 +35,14 @@ helm install --namespace warm-images wi-nats bitnami/nats
   touch values.yaml
   echo "username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
   echo "password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
+  # Allow watching all namespaces
   echo "list.spaces: *" >> values.yaml
+  # TODO: ignore namespaces
+  # ...
  
-helm repo add TBA
-helm repo update
-helm install --namespace warm-images --values values.yaml wi tba/tba
+  helm repo add TBA
+  helm repo update
+  helm install --namespace warm-images --values values.yaml wi tba/tba
 ```   
 
 ## Configuration

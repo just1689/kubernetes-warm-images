@@ -72,6 +72,9 @@ list: "*"
 To ignore some number of namespaces modify the `ignore` field in the `values.yaml`. It accepts a spaced separated list
 of namespaces.
 
+## Monitoring
+TBA
+
 ## Roadmap v0.9.0 - Core Functionality
 
 - Remove temp password from `values.yaml`
@@ -82,14 +85,13 @@ of namespaces.
 - Integrate health check for Controller
 - Integrate health check for Agent
 - Test different scenarios
+- End-to-end test of install guide
 - v1
 
 ## Roadmap - v1.1.0
-
-- Confidence through tests
 - Tests - Go
 - Tests - Helm
-- End-to-end test of install guide
+- Monitoring first pass - logs
 
 ## Roadmap - v1.2.0
 
@@ -98,5 +100,5 @@ of namespaces.
 - Clean shutdown - Agent
 
 ## Roadmap - Future
-
+- Push Helm package to online repo as part of GitHub Action.
 - Export Prometheus endpoint. Config for Helm

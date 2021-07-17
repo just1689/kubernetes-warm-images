@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "warm-images.agentName" . }}
+  labels:
+    {{- include "warm-images.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "warm-images.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "warm-images.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "warm-images.serviceAccountName" . }}
+      terminationGracePeriodSeconds: 1
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ include "warm-images.customRegistry" . }}{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: APP
+              value: AGENT
+            - name: LISTEN_ADDR
+              value: :8080
+            - name: NATS_ADDR
+              value: {{ .Values.nats.url }}
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - name: dockersock
+              mountPath: /var/run/docker.sock
+          resources:
+            {{- toYaml .Values.agent.resources | nindent 12 }}
+      volumes:
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock
+  revisionHistoryLimit: 1

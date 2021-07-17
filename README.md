@@ -22,7 +22,9 @@ kubectl create ns warm-images
 
 2. Install NATs
 
-I suggest using the Bitnami NATs Helm chart as at this time it is maintained, up-to-date and fairly configurable: https://github.com/bitnami/charts/tree/master/bitnami/nats
+I suggest using the Bitnami NATs Helm chart as at this time it is maintained, up-to-date and fairly
+configurable: https://github.com/bitnami/charts/tree/master/bitnami/nats
+
 ```bash
 helm repo add bitnami https://charts.bitnami.com/bitnami
 helm repo update
@@ -34,8 +36,10 @@ helm install --namespace warm-images wi-nats bitnami/nats
 ```bash
 # Get the username & password
 touch values.yaml
-echo "nats.username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
-echo "nats.password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
+echo "nats:" >> values.yaml
+echo "  url: \"nats://wi-nats-client:4222\"" >> values.yaml
+echo "  username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
+echo "  password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
 
 # Allow watching all namespaces
 echo "list.spaces: *" >> values.yaml

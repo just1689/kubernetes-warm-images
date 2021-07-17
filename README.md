@@ -36,6 +36,7 @@ helm install --namespace warm-images wi-nats bitnami/nats
 3. Install the app
 
 ```bash
+
 # Get the username & password from NATs
 touch values.yaml
 echo "nats:" >> values.yaml
@@ -45,7 +46,7 @@ echo "  password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='
 
 # Allow watching some namespaces & ignoring others
 echo "list: \"*\"" >> values.yaml
-echo "ignore: \"\"" >> values.yaml
+echo "ignore: \"kube-system\"" >> values.yaml
 
 # Install 
 helm repo add captains-charts https://storage.googleapis.com/captains-charts

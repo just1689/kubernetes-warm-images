@@ -10,7 +10,7 @@ import (
 var namespacesFilename = "/config/list.spaces" //TODO: override in env var
 
 func RunController() {
-	logrus.Infoln("> Started as Controller")
+	logrus.Infoln(logPrepend(1, "~~~ Started as Controller ~~~"))
 
 	//Get namespaces to watch
 	ns := getNamespacesToWatch()

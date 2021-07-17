@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: wi-agent
+  namespace: warm-images
+  labels:
+    app: wi-agent
+  annotations:
+    app: wi-agent
+spec:
+  selector:
+    matchLabels:
+      app: wi-agent
+  template:
+    metadata:
+      labels:
+        app: wi-agent
+      annotations:
+        app: wi-agent
+    spec:
+      serviceAccountName: warm-images-svc-acc
+      terminationGracePeriodSeconds: 1
+      containers:
+        - name: wi-agent
+          image: reg.captainjustin.space/wi-agent:dev3
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: APP
+              value: AGENT
+            - name: LISTEN_ADDR
+              value: :8080
+            - name: NATS_ADDR
+              value: nats://wi-nats-client:4222
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          readinessProbe:
+            httpGet:
+              port: http
+              path: /health
+            initialDelaySeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 5
+            timeoutSeconds: 1
+          livenessProbe:
+            httpGet:
+              port: http
+              path: /health
+            initialDelaySeconds: 3
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 5
+            timeoutSeconds: 1
+          volumeMounts:
+            - name: dockersock
+              mountPath: /var/run/docker.sock
+      volumes:
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock
+  revisionHistoryLimit: 1

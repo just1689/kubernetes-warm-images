@@ -187,7 +187,7 @@ spec:
           
       containers:
         - name: nats
-          image: docker.io/bitnami/nats:2.3.2-debian-10-r0
+          image: reg.captainjustin.space/docker.io/bitnami/nats:2.3.2-debian-10-r0
           imagePullPolicy: IfNotPresent
           command:
             - nats-server

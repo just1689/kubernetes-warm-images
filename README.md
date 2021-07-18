@@ -15,6 +15,13 @@
 The goal of this project is to "keep images warm" by pulling images onto nodes in-case they may be used in the near
 future.
 
+## Use Cases
+
+- "Warm serverless images" - This could be useful to you if you're running serverless workloads on Kubernetes where the overhead for pulling images each time is consequential.
+- "Warm critical images" - You may want your nodes to have images cached for critical workloads before they're actually needed.
+- "I don't trust my container registry" - Your image server might not be as HA as your K8s cluster.
+
+
 ## Architecture
 
 The project will consist of three components.
@@ -69,7 +76,7 @@ helm install --namespace warm-images --values values.yaml wi captains-charts/war
 
 ```
 
-## Configuration
+## Usage Guide
 
 ### Changing the namespaces
 
@@ -97,16 +104,19 @@ TBA
 - Config: Exclude images that "contain".
 - Integrate health check for Controller.
 - Integrate health check for Agent.
-- Test different scenarios.
-- End-to-end test of install guide.
 - v1
 
-## Roadmap v1.1.0 - Find all the bugs
+## Roadmap v1.1.0 - In the light of experience
+- LabelSelectors?
+- Lua for Controller-side custom logic?
+- Lua for client-side custom logic?
 - Tests - Go.
 - Tests - Helm.
+- Export Prometheus endpoint. Config for Helm.
+- Grafana Dashboard  
 - Monitoring first pass - logs.
 
-## Roadmap v1.2.0
+## Roadmap v1.2.0 - A little ways out
 
 - Support for ContainerD.
 - Clean shutdown - Controller.
@@ -115,4 +125,4 @@ TBA
 
 ## Roadmap - Future
 - Push Helm package to online repo as part of GitHub Action.
-- Export Prometheus endpoint. Config for Helm.
+- Test different scenarios.

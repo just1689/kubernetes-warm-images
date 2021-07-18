@@ -1,4 +1,5 @@
 # kubernetes-warm-images
+[![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml)
 
 ## Kubernetes Warm Images
 
@@ -78,7 +79,6 @@ TBA
 
 ## Roadmap v0.9.0 - Core Functionality
 
-- Remove temp password from `values.yaml`
 
 ## Roadmap v1.0.0 - Stable
 

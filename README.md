@@ -106,24 +106,24 @@ TBA
 - Integrate health check for Agent.
 - v1
 
-## Roadmap v1.1.0 - In the light of experience
+## Roadmap v1.1.0 - Post Experientia
 - LabelSelectors?
 - Lua for Controller-side custom logic?
-- Lua for client-side custom logic?
+- Lua for Agent-side custom logic?
 - Tests - Go.
 - Tests - Helm.
 - Export Prometheus endpoint. Config for Helm.
 - Grafana Dashboard  
 - Monitoring first pass - logs.
 
-## Roadmap v1.2.0 - A little ways out
+## Roadmap v1.2.0 - 🌟🌟🌟
 
 - Support for ContainerD.
 - Clean shutdown - Controller.
 - Clean shutdown - Agent.
 - Consider support for non-NATs streaming.
 
-## Roadmap - Future
+## Roadmap - 💭💭💭
 - Test different scenarios (at scale, low availability, etc).
 - Push Helm package to online repo as part of GitHub Action.
 - K8s documentation (diagram, scaling etc)

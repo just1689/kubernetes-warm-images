@@ -22,10 +22,7 @@ func (p *PubSub) Publish(image string) {
 	p.nc.Publish(subjectNameImages, []byte(image))
 }
 func (p *PubSub) Subscribe(handler func(image string)) {
-	//TODO: disconnect?
-	p.nc.Subscribe(subjectNameImages, func(msg *nats.Msg) {
-		handler(string(msg.Data))
-	})
+	p.nc.Subscribe(subjectNameImages, func(msg *nats.Msg) { handler(string(msg.Data)) })
 }
 func (p *PubSub) Close() {
 	p.nc.Close()
@@ -50,12 +47,6 @@ func NewPubSubClient() *PubSub {
 }
 
 func getNATsCreds() (username, password string) {
-	var err error
-	if username, err = readFileToString(usernamePath); err != nil || username == "" {
-		logrus.Panicln(fmt.Sprintf("no NATs username (%s) found at %s", username, usernamePath))
-	}
-	if password, err = readFileToString(passwordPath); err != nil || password == "" {
-		logrus.Panicln(fmt.Sprintf("no NATs password (%s) found at %s", password, passwordPath))
-	}
+	username, password = fileStrOrPanic(usernamePath), fileStrOrPanic(passwordPath)
 	return
 }

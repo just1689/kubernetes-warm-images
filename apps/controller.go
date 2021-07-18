@@ -7,6 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var namespacesWatchFilename = "/config/list.spaces"    //TODO: override in env var
@@ -43,23 +44,23 @@ func RunController() {
 }
 
 func getNamespacesToWatch() chan string {
-	c, err := client.SplitFileBySpace(namespacesWatchFilename)
+	var s string
+	var err error
+	s, err = client.ReadFileToString(namespacesWatchFilename)
 	if err != nil {
 		logrus.Panicln("could not get namespace list to watch")
 	}
-	return c
+	return util.StrArrToCh(strings.Split(s, " "))
 }
 
 func getNamespacesToIgnore() []string {
-	c, err := client.SplitFileBySpace(namespacesIgnoreFilename)
+	var s string
+	var err error
+	s, err = client.ReadFileToString(namespacesIgnoreFilename)
 	if err != nil {
 		logrus.Panicln("could not get namespace list to ignore")
 	}
-	result := make([]string, 0)
-	for next := range c {
-		result = append(result, next)
-	}
-	return result
+	return strings.Split(s, " ")
 }
 
 func startHealthServer() {

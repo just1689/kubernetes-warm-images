@@ -18,3 +18,16 @@ func StrExistsIn(needle string, haystack []string) bool {
 	}
 	return false
 }
+
+func StrArrToCh(arr []string) chan string {
+	result := make(chan string)
+	go func() {
+		defer close(result)
+		for _, next := range arr {
+			if next != "" {
+				result <- next
+			}
+		}
+	}()
+	return result
+}

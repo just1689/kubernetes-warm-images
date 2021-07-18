@@ -2,35 +2,24 @@ package client
 
 import (
 	"fmt"
-	"github.com/just1689/kubernetes-warm-images/util"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
-	"strings"
 )
 
-func readFileToString(file string) (string, error) {
-	b, err := ioutil.ReadFile(file)
-	if err != nil {
-		logrus.Errorln(util.LogPrepend(3, err.Error()))
-		return "", err
-	}
-	return string(b), nil
-}
-
-func SplitFileBySpace(file string) (res chan string, err error) {
+func ReadFileToString(file string) (result string, err error) {
 	var b []byte
-	b, err = ioutil.ReadFile(file)
-	if err != nil {
-		logrus.Errorln(util.LogPrepend(3, fmt.Sprintf("could not read file: %s", file)))
-		logrus.Errorln(util.LogPrepend(3, err.Error()))
+	if b, err = ioutil.ReadFile(file); err != nil {
+		logrus.Panicln(fmt.Sprintf("could not read file: %s with error: %s", file, err))
 		return
 	}
-	res = make(chan string)
-	go func() {
-		for _, next := range strings.Split(string(b), " ") {
-			res <- next
-		}
-		close(res)
-	}()
+	result = string(b)
+	return
+}
+
+func fileStrOrPanic(path string) (str string) {
+	var err error
+	if str, err = ReadFileToString(path); err != nil || str == "" {
+		logrus.Panicln(fmt.Sprintf("no ne string found '%s' found at %s", str, path))
+	}
 	return
 }

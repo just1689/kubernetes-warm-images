@@ -1,14 +1,12 @@
 # kubernetes-warm-images
 
 ![status](https://img.shields.io/badge/Status-Beta-informational)
-![version](https://img.shields.io/docker/v/just1689/warmimages) 
+![version](https://img.shields.io/docker/v/just1689/warmimages)
 ![version](https://img.shields.io/badge/Helm-0.9.0-blue)
-[![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml) 
+[![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/just1689/kubernetes-warm-images)](https://goreportcard.com/report/github.com/just1689/kubernetes-warm-images)
 [![codebeat badge](https://codebeat.co/badges/2aff7ff0-8af7-43ee-95dc-72bbbd098c4f)](https://codebeat.co/projects/github-com-just1689-kubernetes-warm-images-main)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a1f55c3e1e1518fdcaa5/maintainability)](https://codeclimate.com/github/just1689/kubernetes-warm-images/maintainability)
-
-
 
 ## Kubernetes Warm Images
 
@@ -17,10 +15,11 @@ future.
 
 ## Use Cases
 
-- "Warm serverless images" - This could be useful to you if you're running serverless workloads on Kubernetes where the overhead for pulling images each time is consequential.
-- "Warm critical images" - You may want your nodes to have images cached for critical workloads before they're actually needed.
+- "Warm serverless images" - This could be useful to you if you're running serverless workloads on Kubernetes where the
+  overhead for pulling images each time is consequential.
+- "Warm critical images" - You may want your nodes to have images cached for critical workloads before they're actually
+  needed.
 - "I don't trust my container registry" - Your image server might not be as HA as your K8s cluster.
-
 
 ## Architecture
 
@@ -67,6 +66,7 @@ echo "ignore: \"kube-system\"" >> values.yaml
 ```   
 
 4. Install Warm Images
+
 ```bash
 
 # Install 
@@ -96,8 +96,8 @@ To ignore some number of namespaces modify the `ignore` field in the `values.yam
 of namespaces.
 
 ## Monitoring
-TBA
 
+TBA
 
 ## Roadmap v1.0.0 - Stable
 
@@ -107,13 +107,17 @@ TBA
 - v1
 
 ## Roadmap v1.1.0 - Post Experientia
+
+- Philosophical: Figure out exactly which resources could be watched (DaemonSets, Deployments, etc)
+- Philosophical: Figure out how to `select`
+- Philosophical: Figure out how to `skip`
 - LabelSelectors?
 - Lua for Controller-side custom logic?
 - Lua for Agent-side custom logic?
 - Tests - Go.
 - Tests - Helm.
 - Export Prometheus endpoint. Config for Helm.
-- Grafana Dashboard  
+- Grafana Dashboard
 - Monitoring first pass - logs.
 
 ## Roadmap v1.2.0 - 🌟🌟🌟
@@ -124,6 +128,7 @@ TBA
 - Consider support for non-NATs streaming.
 
 ## Roadmap - 💭💭💭
+
 - Test different scenarios (at scale, low availability, etc).
 - Push Helm package to online repo as part of GitHub Action.
 - K8s documentation (diagram, scaling etc)

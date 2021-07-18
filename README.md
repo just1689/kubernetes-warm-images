@@ -124,5 +124,8 @@ TBA
 - Consider support for non-NATs streaming.
 
 ## Roadmap - Future
+- Test different scenarios (at scale, low availability, etc).
 - Push Helm package to online repo as part of GitHub Action.
-- Test different scenarios.
+- K8s documentation (diagram, scaling etc)
+- Helm documentation - all values tables & values example files.
+

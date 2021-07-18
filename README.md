@@ -1,8 +1,9 @@
 # kubernetes-warm-images
 [![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml) &nbsp; 
 ![version](https://img.shields.io/docker/v/just1689/warmimages) &nbsp; ![version](https://img.shields.io/badge/Helm-0.9.0-blue)
+&nbsp; ![status](https://img.shields.io/badge/-Alpha-informational)
 
-https://camo.githubusercontent.com/8733716e2fd7444a0f383a9e5f43779a016bae35ddde4e1cc32a4f90bd9bb775/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f76657273696f6e2d312e322e332d626c7565
+
 
 ## Kubernetes Warm Images
 

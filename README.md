@@ -1,6 +1,6 @@
 # kubernetes-warm-images
 
-![status](https://img.shields.io/badge/Status-Beta-informational)
+![status](https://img.shields.io/badge/status-Beta-informational)
 ![version](https://img.shields.io/docker/v/just1689/warmimages)
 ![version](https://img.shields.io/badge/Helm-0.9.0-blue)
 [![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml)
@@ -10,8 +10,7 @@
 
 ## Kubernetes Warm Images
 
-The goal of this project is to "keep images warm" by pulling images onto nodes in-case they may be used in the near
-future.
+The goal of this project is to "keep images warm" by pulling images onto Kubernetes nodes.
 
 ## Use Cases
 
@@ -19,7 +18,6 @@ future.
   overhead for pulling images each time is consequential.
 - "Warm critical images" - You may want your nodes to have images cached for critical workloads before they're actually
   needed.
-- "I don't trust my container registry" - Your image server might not be as HA as your K8s cluster.
 
 ## Architecture
 
@@ -40,8 +38,8 @@ kubectl create ns warm-images
 
 2. Install NATs
 
-I suggest using the Bitnami NATs Helm chart as at time of writing it is maintained, up-to-date and fairly
-configurable: https://github.com/bitnami/charts/tree/master/bitnami/nats
+I suggest using the Bitnami NATs Helm chart as at time of writing it is maintained, up-to-date and fairly configurable.
+See more at https://github.com/bitnami/charts/tree/master/bitnami/nats
 
 ```bash
 helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -80,13 +78,13 @@ helm install --namespace warm-images --values values.yaml wi captains-charts/war
 
 ### Changing the namespaces
 
-Modify the `values.yaml` file for multiple namespaces by separating them with spaces in the field `list.spaces`
+Modify the `values.yaml` file for multiple namespaces by separating them with spaces in the field called `list`
 
 ```yaml
 list: "ns1 default ns2"
 ```
 
-or use all namespaces using `*`:
+or watch all namespaces using `*`:
 
 ```yaml
 list: "*"
@@ -101,23 +99,25 @@ TBA
 
 ## Roadmap v1.0.0 - Stable
 
+- Move the health server.
 - Config: Exclude images that "contain".
 - Integrate health check for Controller.
 - Integrate health check for Agent.
+- Clean up
 - v1
 
 ## Roadmap v1.1.0 - Post Experientia
 
-- Philosophical: Figure out exactly which resources could be watched (DaemonSets, Deployments, etc)
-- Philosophical: Figure out how to `select`
-- Philosophical: Figure out how to `skip`
+- Philosophical: Figure out exactly which resources could be watched (DaemonSets, Deployments, etc).
+- Philosophical: Figure out how to `select`.
+- Philosophical: Figure out how to `skip`.
 - LabelSelectors?
 - Lua for Controller-side custom logic?
 - Lua for Agent-side custom logic?
 - Tests - Go.
 - Tests - Helm.
 - Export Prometheus endpoint. Config for Helm.
-- Grafana Dashboard
+- Grafana Dashboard.
 - Monitoring first pass - logs.
 
 ## Roadmap v1.2.0 - 🌟🌟🌟
@@ -133,4 +133,4 @@ TBA
 - Push Helm package to online repo as part of GitHub Action.
 - K8s documentation (diagram, scaling etc)
 - Helm documentation - all values tables & values example files.
-
+- Multi-instance deployments for large clusters.

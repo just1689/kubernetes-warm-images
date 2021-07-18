@@ -10,8 +10,8 @@ import (
 	"strings"
 )
 
-var namespacesWatchFilename = "/config/list.spaces"    //TODO: override in env var
-var namespacesIgnoreFilename = "/config/ignore.spaces" //TODO: override in env var
+var namespacesWatchFilename = util.StrOr(os.Getenv("WATCH_NAMESPACES_FILENAME"), "/config/list.spaces")
+var namespacesIgnoreFilename = util.StrOr(os.Getenv("IGNORE_NAMESPACES_FILENAME"), "/config/ignore.spaces")
 
 func RunController() {
 	logrus.Infoln(util.LogPrepend(1, "~~~ Started as Controller ~~~"))

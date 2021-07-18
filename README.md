@@ -90,7 +90,7 @@ or watch all namespaces using `*`:
 list: "*"
 ```
 
-To ignore some number of namespaces modify the `ignore` field in the `values.yaml`. It accepts a spaced separated list
+To ignore some number of namespaces modify the `ignore` field in the `values.yaml`. It accepts a space-separated list
 of namespaces.
 
 ## Monitoring

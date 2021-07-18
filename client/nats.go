@@ -28,7 +28,7 @@ func (p *PubSub) Close() {
 	p.nc.Close()
 }
 
-func NewPubSubClient() *PubSub {
+func ConnectToNATs() *PubSub {
 	natsAddr := os.Getenv("NATS_ADDR")
 	if natsAddr == "" {
 		logrus.Panicln("could not find env var NATS_ADDR. Exiting")
@@ -36,7 +36,7 @@ func NewPubSubClient() *PubSub {
 	cl := PubSub{}
 	var err error
 
-	username, password := fileStrOrPanic(usernamePath), fileStrOrPanic(passwordPath)
+	username, password := FileStrOrPanic(usernamePath), FileStrOrPanic(passwordPath)
 	cl.nc, err = nats.Connect(natsAddr, nats.UserInfo(username, password))
 	if err != nil {
 		logrus.Fatalln(util.LogPrepend(3, fmt.Sprint("could not connect to NATs server with NATS URL: ", natsAddr, err)))

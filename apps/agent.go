@@ -16,7 +16,7 @@ func RunAgent() {
 
 func listenForImages() {
 	logrus.Infoln(util.LogPrepend(2, "new PubSub client"))
-	ps := client.NewPubSubClient()
+	ps := client.ConnectToNATs()
 	logrus.Infoln(util.LogPrepend(2, "start image puller"))
 	pull := startDockerPuller()
 	logrus.Infoln(util.LogPrepend(2, "subscribing for images"))

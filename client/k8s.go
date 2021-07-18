@@ -14,7 +14,7 @@ import (
 
 var emptyArr = []string{}
 
-func NewK8sClient() *K8sClient {
+func ConnectToKubernetesAPI() *K8sClient {
 	result := &K8sClient{}
 	config, err := rest.InClusterConfig()
 	if err != nil {

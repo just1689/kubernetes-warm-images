@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 )
 
-func ReadFileToString(file string) (result string, err error) {
+func readFileToString(file string) (result string, err error) {
 	var b []byte
 	if b, err = ioutil.ReadFile(file); err != nil {
 		logrus.Panicln(fmt.Sprintf("could not read file: %s with error: %s", file, err))
@@ -16,9 +16,9 @@ func ReadFileToString(file string) (result string, err error) {
 	return
 }
 
-func fileStrOrPanic(path string) (str string) {
+func FileStrOrPanic(path string) (str string) {
 	var err error
-	if str, err = ReadFileToString(path); err != nil || str == "" {
+	if str, err = readFileToString(path); err != nil || str == "" {
 		logrus.Panicln(fmt.Sprintf("no ne string found '%s' found at %s", str, path))
 	}
 	return

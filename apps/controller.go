@@ -16,18 +16,16 @@ var namespacesIgnoreFilename = util.StrOr(os.Getenv("IGNORE_NAMESPACES_FILENAME"
 func RunController() {
 	logrus.Infoln(util.LogPrepend(1, "~~~ Started as Controller ~~~"))
 
-	//Connect to the NATs server
-	logrus.Infoln(util.LogPrepend(2, "connecting to pubSub"))
-	pubSub := client.NewPubSubClient()
+	logrus.Infoln(util.LogPrepend(2, "connecting to NATs"))
+	pubSub := client.ConnectToNATs()
 
-	//Subscribe to CREATE Pod
-	go imagesToQueue(pubSub)
-	startHealthServer() //Blocking call
+	go proxyImagesToQueue(pubSub)
+	startHealthServer()
 }
 
-func imagesToQueue(pubSub *client.PubSub) {
+func proxyImagesToQueue(pubSub *client.PubSub) {
 	for image := range getImageStream() {
-		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("Found new image:%s", image)))
+		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("publishing image: %s", image)))
 		pubSub.Publish(image)
 	}
 }
@@ -35,33 +33,14 @@ func imagesToQueue(pubSub *client.PubSub) {
 func getImageStream() chan string {
 	//Get namespaces to watch & ignore
 	logrus.Infoln(util.LogPrepend(2, "getting namespaces to watch & ignore"))
-	ns, nsIgnore := getNamespacesToWatch(), getNamespacesToIgnore()
+	ns := util.StrArrToCh(strings.Split(client.FileStrOrPanic(namespacesWatchFilename), " "))
+	nsIgnore := strings.Split(client.FileStrOrPanic(namespacesIgnoreFilename), " ")
 	//Connect to Kubernetes API
 	logrus.Infoln(util.LogPrepend(2, "connecting to K8s"))
-	k8sClient := client.NewK8sClient()
+	k8s := client.ConnectToKubernetesAPI()
 	//Subscribe to CREATE Pod
-	return k8sClient.WatchImages(ns, nsIgnore)
+	return k8s.WatchImages(ns, nsIgnore)
 
-}
-
-func getNamespacesToWatch() chan string {
-	var s string
-	var err error
-	s, err = client.ReadFileToString(namespacesWatchFilename)
-	if err != nil {
-		logrus.Panicln("could not get namespace list to watch")
-	}
-	return util.StrArrToCh(strings.Split(s, " "))
-}
-
-func getNamespacesToIgnore() []string {
-	var s string
-	var err error
-	s, err = client.ReadFileToString(namespacesIgnoreFilename)
-	if err != nil {
-		logrus.Panicln("could not get namespace list to ignore")
-	}
-	return strings.Split(s, " ")
 }
 
 func startHealthServer() {

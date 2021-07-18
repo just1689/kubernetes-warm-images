@@ -90,8 +90,8 @@ or watch all namespaces using `*`:
 list: "*"
 ```
 
-To ignore some number of namespaces modify the `ignore` field in the `values.yaml`. It accepts a space-separated list
-of namespaces.
+To ignore some number of namespaces modify the `ignore` field in the `values.yaml`. It accepts a space-separated list of
+namespaces.
 
 ## Monitoring
 
@@ -100,7 +100,6 @@ TBA
 ## Roadmap v1.0.0 - Stable
 
 - Move the health server.
-- Config: Exclude images that "contain".
 - Integrate health check for Controller.
 - Integrate health check for Agent.
 - Clean up
@@ -114,6 +113,7 @@ TBA
 - LabelSelectors?
 - Lua for Controller-side custom logic?
 - Lua for Agent-side custom logic?
+- Config: Exclude images that "contain".
 - Tests - Go.
 - Tests - Helm.
 - Export Prometheus endpoint. Config for Helm.

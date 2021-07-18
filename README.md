@@ -127,7 +127,7 @@ TBA
 - Clean shutdown - Agent.
 - Consider support for non-NATs streaming.
 
-## Roadmap - 💭💭💭
+## Roadmap v - 💭💭💭
 
 - Test different scenarios (at scale, low availability, etc).
 - Push Helm package to online repo as part of GitHub Action.

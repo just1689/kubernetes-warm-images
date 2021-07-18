@@ -6,7 +6,8 @@
 <br />
 [![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml) 
 [![Go Report Card](https://goreportcard.com/badge/github.com/just1689/kubernetes-warm-images)](https://goreportcard.com/report/github.com/just1689/kubernetes-warm-images)
- 
+[![codebeat badge](https://codebeat.co/badges/2aff7ff0-8af7-43ee-95dc-72bbbd098c4f)](https://codebeat.co/projects/github-com-just1689-kubernetes-warm-images-main)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a1f55c3e1e1518fdcaa5/maintainability)](https://codeclimate.com/github/just1689/kubernetes-warm-images/maintainability)
 
 
 

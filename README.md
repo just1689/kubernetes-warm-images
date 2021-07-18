@@ -43,17 +43,16 @@ helm repo update
 helm install --namespace warm-images wi-nats bitnami/nats
 ```
 
-3. Generate your `values.yaml` file
+3. Generate your `values.yaml` file for using with the Helm chart
 
 ```bash
 
-# Get the username & password from NATs
-touch values.yaml
-echo "nats:" >> values.yaml
+# Create a values.yaml file
+echo "nats:" > values.yaml
 echo "  url: \"nats://wi-nats-client:4222\"" >> values.yaml
+# Get the username & password from NATs
 echo "  username: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 user | awk '{print $2}')" >> values.yaml 
 echo "  password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='{.data.*}' | grep -m 1 password | awk '{print $2}')" >> values.yaml
-
 # Allow watching some namespaces & ignoring others
 echo "list: \"*\"" >> values.yaml
 echo "ignore: \"kube-system\"" >> values.yaml

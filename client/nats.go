@@ -36,17 +36,11 @@ func NewPubSubClient() *PubSub {
 	cl := PubSub{}
 	var err error
 
-	username, password := getNATsCreds()
+	username, password := fileStrOrPanic(usernamePath), fileStrOrPanic(passwordPath)
 	cl.nc, err = nats.Connect(natsAddr, nats.UserInfo(username, password))
 	if err != nil {
-		logrus.Errorln(util.LogPrepend(3, fmt.Sprint("could not connect to NATs server with NATS URL: ", natsAddr)))
-		logrus.Errorln(util.LogPrepend(3, err.Error()))
+		logrus.Fatalln(util.LogPrepend(3, fmt.Sprint("could not connect to NATs server with NATS URL: ", natsAddr, err)))
 	}
 	return &cl
 
-}
-
-func getNATsCreds() (username, password string) {
-	username, password = fileStrOrPanic(usernamePath), fileStrOrPanic(passwordPath)
-	return
 }

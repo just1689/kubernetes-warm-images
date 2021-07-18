@@ -35,6 +35,7 @@ agent:
       cpu: 1m
       memory: 8Mi
 
+replicaCount: 1
 
 nats:
   url: "nats://wi-nats-client:4222"

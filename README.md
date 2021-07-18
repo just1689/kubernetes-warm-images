@@ -43,7 +43,7 @@ helm repo update
 helm install --namespace warm-images wi-nats bitnami/nats
 ```
 
-3. Install the app
+3. Generate your `values.yaml` file
 
 ```bash
 
@@ -58,11 +58,17 @@ echo "  password: $(kubectl get cm --namespace warm-images wi-nats -o jsonpath='
 echo "list: \"*\"" >> values.yaml
 echo "ignore: \"kube-system\"" >> values.yaml
 
+```   
+
+4. Install Warm Images
+```bash
+
 # Install 
 helm repo add captains-charts https://storage.googleapis.com/captains-charts
 helm repo update
 helm install --namespace warm-images --values values.yaml wi captains-charts/warm-images
-```   
+
+```
 
 ## Configuration
 

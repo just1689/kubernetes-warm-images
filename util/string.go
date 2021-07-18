@@ -43,3 +43,16 @@ func StrArrToChan(arr []string, c chan string) {
 		c <- next
 	}
 }
+
+func ForEachStr(in chan string, f func(string)) {
+	for next := range in {
+		f(next)
+	}
+}
+
+func FuncForEachStr(in chan string, logger func(in string)) func(next string) {
+	return func(next string) {
+		logger(next)
+		in <- next
+	}
+}

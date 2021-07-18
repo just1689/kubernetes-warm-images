@@ -29,6 +29,7 @@ func (p *PubSub) Close() {
 }
 
 func ConnectToNATs() *PubSub {
+	logrus.Infoln(util.LogPrepend(2, "connecting to NATs"))
 	natsAddr := os.Getenv("NATS_ADDR")
 	if natsAddr == "" {
 		logrus.Panicln("could not find env var NATS_ADDR. Exiting")

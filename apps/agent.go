@@ -7,31 +7,24 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var ImageQueueCacheSize = 256 // TODO: consider making env var & Helm value
+
 func RunAgent() {
 	logrus.Infoln(util.LogPrepend(1, "~~~ Started as Agent ~~~"))
 	listenForImages()
-	logrus.Infoln(util.LogPrepend(2, "starting health server"))
 	startHealthServer()
 }
 
 func listenForImages() {
-	logrus.Infoln(util.LogPrepend(2, "new PubSub client"))
 	ps := client.ConnectToNATs()
-	logrus.Infoln(util.LogPrepend(2, "start image puller"))
-	pull := startDockerPuller()
-	logrus.Infoln(util.LogPrepend(2, "subscribing for images"))
-	ps.Subscribe(func(image string) {
-		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("queue=%s", image)))
-		pull <- image
-	})
+	ps.Subscribe(util.FuncForEachStr(imagePullCh(), func(next string) {
+		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("enqueuing image: '%s'", next)))
+	}))
 }
 
-func startDockerPuller() chan string {
-	in := make(chan string)
-	go func() {
-		for next := range in {
-			client.PullDockerImageGo(next, util.LogPrepend)
-		}
-	}()
-	return in
+func imagePullCh() (result chan string) {
+	logrus.Infoln(util.LogPrepend(2, "start image puller"))
+	result = make(chan string, ImageQueueCacheSize)
+	go util.ForEachStr(result, client.ConnectToDocker())
+	return
 }

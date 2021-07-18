@@ -13,19 +13,18 @@ import (
 // DockerSocket TODO: add to Helm chart
 var DockerSocket = util.StrOr(os.Getenv("DOCKER_SOCKET"), "unix:///var/run/docker.sock")
 
-func PullDockerImageGo(image string, logPrepend func(level int, text string) (result string)) {
-	image = util.PrependImage(image)
-	logrus.Infoln(logPrepend(3, fmt.Sprintf("PullDockerImageGo(%s)", image)))
+func ConnectToDocker() func(next string) {
 	cli, err := eclient.NewClient(DockerSocket, "v1.22", nil, nil)
 	if err != nil {
-		logrus.Errorln(logPrepend(3, fmt.Sprintf("PullDockerImageGo(%s) ~ FAIL", image)))
-		logrus.Errorln(logPrepend(3, err.Error()))
-		return
+		logrus.Panicln(util.LogPrepend(3, fmt.Sprintf("could not connect to docker socket at '%s'. Exiting", DockerSocket)), err)
 	}
-	if _, err = cli.ImagePull(context.Background(), image, types.ImagePullOptions{}); err != nil {
-		logrus.Errorln(logPrepend(3, fmt.Sprintf("PullDockerImageGo(%s) ~ FAIL", image)))
-		logrus.Errorln(logPrepend(3, err.Error()))
-		return
+	return func(image string) {
+		image = util.PrependImage(image)
+		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("pull image: '%s'", image)))
+		if _, err = cli.ImagePull(context.Background(), image, types.ImagePullOptions{}); err != nil {
+			logrus.Errorln(util.LogPrepend(3, fmt.Sprintf("pull image: '%s' ~ FAIL", image)), err)
+			return
+		}
+		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("pull image: '%s' ~ PASS", image)))
 	}
-	logrus.Infoln(logPrepend(3, fmt.Sprintf("PullDockerImageGo(%s) ~ PASS", image)))
 }

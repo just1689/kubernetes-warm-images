@@ -16,7 +16,6 @@ var namespacesIgnoreFilename = util.StrOr(os.Getenv("IGNORE_NAMESPACES_FILENAME"
 func RunController() {
 	logrus.Infoln(util.LogPrepend(1, "~~~ Started as Controller ~~~"))
 
-	logrus.Infoln(util.LogPrepend(2, "connecting to NATs"))
 	pubSub := client.ConnectToNATs()
 
 	go proxyImagesToQueue(pubSub)
@@ -44,6 +43,7 @@ func getImageStream() chan string {
 }
 
 func startHealthServer() {
+	logrus.Infoln(util.LogPrepend(2, "starting health server"))
 	listenAddr := os.Getenv("LISTEN_ADDR")
 	if listenAddr == "" {
 		logrus.Panicln("could not find env var LISTEN_ADDR. Exiting")

@@ -1,5 +1,7 @@
 # kubernetes-warm-images
-[![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml)
+[![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml) &nbsp; ![version](https://img.shields.io/badge/uptime-v0.9.025-brightgreen)
+
+
 
 ## Kubernetes Warm Images
 

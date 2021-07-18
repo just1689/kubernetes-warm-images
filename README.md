@@ -1,7 +1,12 @@
 # kubernetes-warm-images
-[![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml) &nbsp; 
-![version](https://img.shields.io/docker/v/just1689/warmimages) &nbsp; ![version](https://img.shields.io/badge/Helm-0.9.0-blue)
-&nbsp; ![status](https://img.shields.io/badge/-Alpha-informational)
+
+![status](https://img.shields.io/badge/-Alpha-informational)
+![version](https://img.shields.io/docker/v/just1689/warmimages) 
+![version](https://img.shields.io/badge/Helm-0.9.0-blue)
+<br />
+[![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml) 
+[![Go Report Card](https://goreportcard.com/badge/github.com/just1689/kubernetes-warm-images)](https://goreportcard.com/report/github.com/just1689/kubernetes-warm-images)
+ 
 
 
 

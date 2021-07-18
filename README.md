@@ -91,8 +91,6 @@ of namespaces.
 ## Monitoring
 TBA
 
-## Roadmap v0.9.0 - Core Functionality
-
 
 ## Roadmap v1.0.0 - Stable
 

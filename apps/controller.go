@@ -16,31 +16,32 @@ var namespacesIgnoreFilename = "/config/ignore.spaces" //TODO: override in env v
 func RunController() {
 	logrus.Infoln(util.LogPrepend(1, "~~~ Started as Controller ~~~"))
 
-	//Get namespaces to watch
-	logrus.Infoln(util.LogPrepend(2, "getting namespaces to watch"))
-	ns := getNamespacesToWatch()
-
-	//Get namespaces to ignore
-	logrus.Infoln(util.LogPrepend(2, "getting namespaces to ignore"))
-	nsIgnore := getNamespacesToIgnore()
-
 	//Connect to the NATs server
 	logrus.Infoln(util.LogPrepend(2, "connecting to pubSub"))
 	pubSub := client.NewPubSubClient()
 
+	//Subscribe to CREATE Pod
+	go imagesToQueue(pubSub)
+	startHealthServer() //Blocking call
+}
+
+func imagesToQueue(pubSub *client.PubSub) {
+	for image := range getImageStream() {
+		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("Found new image:%s", image)))
+		pubSub.Publish(image)
+	}
+}
+
+func getImageStream() chan string {
+	//Get namespaces to watch & ignore
+	logrus.Infoln(util.LogPrepend(2, "getting namespaces to watch & ignore"))
+	ns, nsIgnore := getNamespacesToWatch(), getNamespacesToIgnore()
 	//Connect to Kubernetes API
 	logrus.Infoln(util.LogPrepend(2, "connecting to K8s"))
 	k8sClient := client.NewK8sClient()
-
 	//Subscribe to CREATE Pod
-	images := k8sClient.WatchImages(ns, nsIgnore)
-	go func() {
-		for image := range images {
-			logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("Found new image:%s", image)))
-			pubSub.Publish(image)
-		}
-	}()
-	startHealthServer() //Blocking call
+	return k8sClient.WatchImages(ns, nsIgnore)
+
 }
 
 func getNamespacesToWatch() chan string {

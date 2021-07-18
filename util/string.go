@@ -31,3 +31,15 @@ func StrArrToCh(arr []string) chan string {
 	}()
 	return result
 }
+
+func StrArrToChan(arr []string, c chan string) {
+	if len(arr) == 0 {
+		return
+	}
+	for _, next := range arr {
+		if next == "" {
+			continue
+		}
+		c <- next
+	}
+}

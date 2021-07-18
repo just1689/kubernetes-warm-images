@@ -48,7 +48,7 @@ func (cl *K8sClient) WatchImages(namespaces chan string, nsIgnore []string) chan
 func handleWatch(namespace string, wi watch.Interface, imgChan chan string, nsIgnore []string) {
 	logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("handleWatch namespace: '%s'", namespace)))
 	for event := range wi.ResultChan() {
-		arrToChan(getImages(event, nsIgnore), imgChan)
+		util.StrArrToChan(getImages(event, nsIgnore), imgChan)
 	}
 }
 
@@ -80,13 +80,4 @@ func (cl *K8sClient) newWatcher(namespace string) (wi watch.Interface) {
 		return
 	}
 	return
-}
-
-func arrToChan(arr []string, imgChan chan string) {
-	if len(arr) == 0 {
-		return
-	}
-	for _, next := range arr {
-		imgChan <- next
-	}
 }

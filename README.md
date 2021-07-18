@@ -129,6 +129,7 @@ TBA
 
 ## Roadmap v - 💭💭💭
 
+- Helm ClusterRole (specific editable one instead of `View`)
 - Test different scenarios (at scale, low availability, etc).
 - Push Helm package to online repo as part of GitHub Action.
 - K8s documentation (diagram, scaling etc)

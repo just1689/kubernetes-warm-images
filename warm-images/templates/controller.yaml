@@ -70,5 +70,4 @@ spec:
         - name: {{ include "warm-images.configmap" . }}
           configMap:
             name: {{ include "warm-images.configmap" . }}
-
   revisionHistoryLimit: 1

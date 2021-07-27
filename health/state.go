@@ -31,10 +31,7 @@ func (h *health) IsSystemOK() status {
 	defer h.Unlock()
 	for name, ok := range h.statuses {
 		if !ok {
-			return status{
-				OK:  false,
-				Msg: name,
-			}
+			return status{OK: false, Msg: name}
 		}
 	}
 	return status{OK: true}
@@ -44,15 +41,17 @@ func (h *health) run() {
 	go func() {
 		for {
 			select {
-			case next := <-h.NotifyOK:
-				h.Lock()
-				h.statuses[next] = true
-				h.Unlock()
-			case next := <-h.NotifyFail:
-				h.Lock()
-				h.statuses[next] = false
-				h.Unlock()
+			case name := <-h.NotifyOK:
+				h.changeStatus(name, true)
+			case name := <-h.NotifyFail:
+				h.changeStatus(name, false)
 			}
 		}
 	}()
+}
+
+func (h *health) changeStatus(name string, val bool) {
+	h.Lock()
+	defer h.Unlock()
+	h.statuses[name] = val
 }

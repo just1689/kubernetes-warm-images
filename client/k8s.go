@@ -2,7 +2,9 @@ package client
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/just1689/kubernetes-warm-images/model"
 	"github.com/just1689/kubernetes-warm-images/util"
 	"github.com/sirupsen/logrus"
 	v1 "k8s.io/api/core/v1"
@@ -32,24 +34,96 @@ type K8sClient struct {
 	clientSet *kubernetes.Clientset
 }
 
-func (cl *K8sClient) WatchImages(namespaces chan string, nsIgnore []string) chan string {
+func (cl *K8sClient) WatchEachNamespace(namespaces chan string, nsIgnore []string) chan string {
 	result := make(chan string, 256)
-	for namespace := range namespaces {
-		if namespace == "*" {
-			namespace = ""
-		}
+	util.FuncForEach(namespaces, func(namespace string) {
 		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("New watcher ns: '%s'", namespace)))
 		wi := cl.newWatcher(namespace)
-		go handleWatch(namespace, wi, result, nsIgnore)
-	}
+		go watchOneNamespace(namespace, wi, result, nsIgnore)
+	})
 	return result
 }
 
-func handleWatch(namespace string, wi watch.Interface, imgChan chan string, nsIgnore []string) {
-	logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("handleWatch namespace: '%s'", namespace)))
+func watchOneNamespace(namespace string, wi watch.Interface, imgChan chan string, nsIgnore []string) {
+	logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("watchOneNamespace namespace: '%s'", namespace)))
 	for event := range wi.ResultChan() {
 		util.StrArrToChan(getImages(event, nsIgnore), imgChan)
 	}
+
+	//allPods := eventsToPods(wi.ResultChan())
+	//filteredPods := applyControllerFilters(allPods) //TODO: send Controller filters?
+	//images := podsToImages(filteredPods)
+	//publishImages(images, imgChan)
+	//TODO: rethink
+	/*
+		--> Transform event into strongly typed object
+		--> Process through list of filters?
+		--> return image
+	*/
+}
+
+func eventsToPods(in <-chan watch.Event) chan *v1.Pod {
+	result := make(chan *v1.Pod)
+	go func() {
+		for event := range in {
+			if p, ok := event.Object.(*v1.Pod); !ok {
+				//TODO: handle !ok
+			} else {
+				result <- p
+			}
+		}
+		close(result)
+	}()
+	return result
+}
+
+func applyControllerFilters(pods chan *v1.Pod) chan *v1.Pod {
+	result := make(chan *v1.Pod)
+	go func() {
+		for pod := range pods {
+			ignore := false
+			//
+			// TODO: Apply filters
+			//
+			if !ignore {
+				result <- pod
+			}
+
+		}
+		close(result)
+	}()
+	return result
+}
+
+func podsToImages(pods chan *v1.Pod) chan model.Image {
+	result := make(chan model.Image)
+	go func() {
+		for pod := range pods {
+			for _, container := range pod.Spec.Containers {
+				result <- model.Image{
+					Namespace: pod.ObjectMeta.Namespace,
+					PodName:   pod.ObjectMeta.Name,
+					Labels:    pod.ObjectMeta.Labels,
+					Image:     container.Image,
+				}
+			}
+		}
+		close(result)
+	}()
+	return result
+}
+
+func publishImages(images chan model.Image, out chan string) {
+	go func() {
+		for image := range images {
+			b, err := json.Marshal(image)
+			if err != nil {
+				logrus.Errorln("could not convert Image to json", image, err)
+				continue
+			}
+			out <- string(b)
+		}
+	}()
 }
 
 func getImages(event watch.Event, nsIgnore []string) []string {

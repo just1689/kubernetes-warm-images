@@ -23,6 +23,9 @@ func RunController() {
 }
 
 func proxyImagesToQueue(pubSub *client.PubSub) {
+	//Get state
+	//TODO: get state
+
 	for image := range getImageStream() {
 		logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("publishing image: %s", image)))
 		pubSub.Publish(image)
@@ -38,7 +41,7 @@ func getImageStream() chan string {
 	logrus.Infoln(util.LogPrepend(2, "connecting to K8s"))
 	k8s := client.ConnectToKubernetesAPI()
 	//Subscribe to CREATE Pod
-	return k8s.WatchImages(ns, nsIgnore)
+	return k8s.WatchEachNamespace(ns, nsIgnore)
 
 }
 

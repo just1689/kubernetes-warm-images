@@ -25,6 +25,6 @@ func listenForImages() {
 func imagePullCh() (result chan string) {
 	logrus.Infoln(util.LogPrepend(2, "start image puller"))
 	result = make(chan string, ImageQueueCacheSize)
-	go util.ForEachStr(result, client.ConnectToDocker())
+	go util.FuncForEach(result, client.ConnectToDocker())
 	return
 }

@@ -44,7 +44,7 @@ func StrArrToChan(arr []string, c chan string) {
 	}
 }
 
-func ForEachStr(in chan string, f func(string)) {
+func FuncForEach(in chan string, f func(string)) {
 	for next := range in {
 		f(next)
 	}

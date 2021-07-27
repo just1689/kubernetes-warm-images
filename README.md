@@ -97,12 +97,10 @@ namespaces.
 
 TBA
 
-## Roadmap v1.0.0 - Stable
+## Roadmap v1.0.1
+- Remove `reg.` prefix
 
-- Clean up
-- v1
-
-## Roadmap v1.1.0 - Post Experientia
+## Roadmap v2.0.0 - Post Experientia
 
 - Philosophical: Figure out exactly which resources could be watched (DaemonSets, Deployments, etc).
 - Philosophical: Figure out how to `select`.

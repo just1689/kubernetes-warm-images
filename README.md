@@ -1,6 +1,6 @@
 # kubernetes-warm-images
 
-![status](https://img.shields.io/badge/status-Beta-informational)
+![status](https://img.shields.io/badge/status-beta-informational)
 ![version](https://img.shields.io/docker/v/just1689/warmimages)
 ![version](https://img.shields.io/badge/Helm-0.9.0-blue)
 [![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml)
@@ -99,10 +99,6 @@ TBA
 
 ## Roadmap v1.0.0 - Stable
 
-- Cache with TTL to prevent self-DDoS
-- Move the health server.
-- Integrate health check for Controller.
-- Integrate health check for Agent.
 - Clean up
 - v1
 

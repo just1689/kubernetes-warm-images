@@ -1,6 +1,6 @@
 # kubernetes-warm-images
 
-![status](https://img.shields.io/badge/status-Beta-informational)
+![status](https://img.shields.io/badge/status-beta-informational)
 ![version](https://img.shields.io/docker/v/just1689/warmimages)
 ![version](https://img.shields.io/badge/Helm-0.9.0-blue)
 [![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml)
@@ -97,16 +97,10 @@ namespaces.
 
 TBA
 
-## Roadmap v1.0.0 - Stable
+## Roadmap v1.0.1
+- Remove `reg.` prefix
 
-- Cache with TTL to prevent self-DDoS
-- Move the health server.
-- Integrate health check for Controller.
-- Integrate health check for Agent.
-- Clean up
-- v1
-
-## Roadmap v1.1.0 - Post Experientia
+## Roadmap v2.0.0 - Post Experientia
 
 - Philosophical: Figure out exactly which resources could be watched (DaemonSets, Deployments, etc).
 - Philosophical: Figure out how to `select`.

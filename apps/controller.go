@@ -5,7 +5,6 @@ import (
 	"github.com/just1689/kubernetes-warm-images/client"
 	"github.com/just1689/kubernetes-warm-images/util"
 	"github.com/sirupsen/logrus"
-	"net/http"
 	"os"
 	"strings"
 )
@@ -43,22 +42,4 @@ func getImageStream() chan string {
 	//Subscribe to CREATE Pod
 	return k8s.WatchEachNamespace(ns, nsIgnore)
 
-}
-
-func startHealthServer() {
-	logrus.Infoln(util.LogPrepend(2, "starting health server"))
-	listenAddr := os.Getenv("LISTEN_ADDR")
-	if listenAddr == "" {
-		logrus.Panicln("could not find env var LISTEN_ADDR. Exiting")
-	}
-	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
-		//TODO: check the health is OK
-		if false {
-			errMsg := "" // TODO: error message
-			http.Error(writer, errMsg, http.StatusInternalServerError)
-			return
-		}
-		writer.Write([]byte("{\"ok\":true}"))
-	})
-	http.ListenAndServe(listenAddr, nil)
 }

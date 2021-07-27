@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/Microsoft/go-winio v0.5.0 // indirect
+	github.com/ReneKroon/ttlcache/v2 v2.7.0
 	github.com/docker/distribution v2.7.1+incompatible // indirect
 	github.com/docker/engine-api v0.4.0
 	github.com/docker/go-connections v0.4.0 // indirect

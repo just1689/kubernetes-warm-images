@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/just1689/kubernetes-warm-images/health"
 	"github.com/just1689/kubernetes-warm-images/model"
 	"github.com/just1689/kubernetes-warm-images/util"
 	"github.com/sirupsen/logrus"
@@ -14,7 +15,10 @@ import (
 	"k8s.io/client-go/rest"
 )
 
-var emptyArr = []string{}
+var (
+	emptyArr            = []string{}
+	HealthNameCastToPod = "CAST_TO_POD"
+)
 
 func ConnectToKubernetesAPI() *K8sClient {
 	result := &K8sClient{}
@@ -132,8 +136,10 @@ func getImages(event watch.Event, nsIgnore []string) []string {
 	}
 	if p, ok := event.Object.(*v1.Pod); !ok {
 		logrus.Errorln(util.LogPrepend(3, fmt.Sprintf("could not cast as pod %s", event.Object)))
+		health.GlobalHealth.NotifyFail <- HealthNameCastToPod
 		return emptyArr
 	} else {
+		health.GlobalHealth.NotifyOK <- HealthNameCastToPod
 		if util.StrExistsIn(p.ObjectMeta.Namespace, nsIgnore) {
 			logrus.Infoln(util.LogPrepend(3, fmt.Sprintf("ignoring pod: '%s' as namespace: '%s'", p.ObjectMeta.Name, p.ObjectMeta.Namespace)))
 			return emptyArr

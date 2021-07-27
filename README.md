@@ -2,7 +2,7 @@
 
 ![status](https://img.shields.io/badge/status-beta-informational)
 ![version](https://img.shields.io/docker/v/just1689/warmimages)
-![version](https://img.shields.io/badge/Helm-0.9.0-blue)
+![version](https://img.shields.io/badge/Helm-v1.0.0-green)
 [![Docker](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/just1689/kubernetes-warm-images/actions/workflows/docker-publish.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/just1689/kubernetes-warm-images)](https://goreportcard.com/report/github.com/just1689/kubernetes-warm-images)
 [![codebeat badge](https://codebeat.co/badges/2aff7ff0-8af7-43ee-95dc-72bbbd098c4f)](https://codebeat.co/projects/github-com-just1689-kubernetes-warm-images-main)
@@ -115,15 +115,12 @@ TBA
 - Grafana Dashboard.
 - Monitoring first pass - logs.
 
-## Roadmap v1.2.0 - 🌟🌟🌟
+## Roadmap - Future 🌟🌟🌟
 
 - Support for ContainerD.
 - Clean shutdown - Controller.
 - Clean shutdown - Agent.
 - Consider support for non-NATs streaming.
-
-## Roadmap v - 💭💭💭
-
 - Helm ClusterRole (specific editable one instead of `View`)
 - Test different scenarios (at scale, low availability, etc).
 - Push Helm package to online repo as part of GitHub Action.

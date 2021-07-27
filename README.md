@@ -99,6 +99,7 @@ TBA
 
 ## Roadmap v1.0.0 - Stable
 
+- Cache with TTL to prevent self-DDoS
 - Move the health server.
 - Integrate health check for Controller.
 - Integrate health check for Agent.

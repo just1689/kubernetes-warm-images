@@ -115,15 +115,12 @@ TBA
 - Grafana Dashboard.
 - Monitoring first pass - logs.
 
-## Roadmap v1.2.0 - 🌟🌟🌟
+## Roadmap - Future 🌟🌟🌟
 
 - Support for ContainerD.
 - Clean shutdown - Controller.
 - Clean shutdown - Agent.
 - Consider support for non-NATs streaming.
-
-## Roadmap v - 💭💭💭
-
 - Helm ClusterRole (specific editable one instead of `View`)
 - Test different scenarios (at scale, low availability, etc).
 - Push Helm package to online repo as part of GitHub Action.
